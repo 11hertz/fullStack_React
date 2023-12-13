@@ -1,7 +1,8 @@
 import { useState, ChangeEvent } from 'react';
+import { LoginUser } from '../App';
 
 type Props = {
-  login: (id: number, name: string) => void;
+  login: ({ id, name }: LoginUser) => void;
 };
 
 const Login = ({ login }: Props) => {
@@ -22,7 +23,7 @@ const Login = ({ login }: Props) => {
       <div>
         Login Name: <input type='text' value={name} onChange={changeName} />
       </div>
-      <button onClick={() => login(id, name)}>Login</button>
+      <button onClick={() => login({ id, name })}>Login</button>
     </>
   );
 };

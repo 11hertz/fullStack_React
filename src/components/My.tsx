@@ -1,10 +1,10 @@
-import { Session } from '../App';
+import { LoginUser, Session } from '../App';
 import Login from './Login';
 import Profile from './Profile';
 
 type Props = {
   session: Session;
-  login: (id: number, name: string) => void;
+  login: ({ id, name }: LoginUser) => void;
   logout: () => void;
   removeCartItem: (itemId: number) => void;
 };
