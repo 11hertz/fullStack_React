@@ -6,9 +6,15 @@ type Props = {
   session: Session;
   login: () => void;
   logout: () => void;
+  removeCartItem: (itemId: number) => void;
 };
 
-const My = ({ session: { loginUser, cart }, login, logout }: Props) => {
+const My = ({
+  session: { loginUser, cart },
+  login,
+  logout,
+  removeCartItem,
+}: Props) => {
   console.log('@@@My');
   return (
     <>
@@ -21,6 +27,7 @@ const My = ({ session: { loginUser, cart }, login, logout }: Props) => {
         {cart.map(({ id, name, price }) => (
           <li key={id}>
             {name}({price})
+            <button onClick={() => removeCartItem(id)}>DEL</button>
           </li>
         ))}
       </ul>

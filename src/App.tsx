@@ -24,16 +24,30 @@ function App() {
   console.log('@@@App');
 
   const [count, setCount] = useState(0);
-  const [session, _] = useState<Session>(SampleSession);
+  const [session, setSession] = useState<Session>(SampleSession);
 
   const plusCount = () => setCount((prevCount) => prevCount + 1);
   const login = () => {};
-  const logout = () => {};
+  const logout = () => {
+    setSession({ ...session, loginUser: null });
+  };
+
+  const removeCartItem = (itemId: number) => {
+    setSession({
+      ...session,
+      cart: session.cart.filter((item) => item.id !== itemId),
+    });
+  };
 
   return (
     <>
       <h2>count: {count}</h2>
-      <My session={session} login={login} logout={logout} />
+      <My
+        session={session}
+        login={login}
+        logout={logout}
+        removeCartItem={removeCartItem}
+      />
       <Hello name='홍길동' age={30} plusCount={plusCount}>
         <h3>반갑습니다~</h3>
       </Hello>
