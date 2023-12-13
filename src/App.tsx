@@ -27,7 +27,9 @@ function App() {
   const [session, setSession] = useState<Session>(SampleSession);
 
   const plusCount = () => setCount((prevCount) => prevCount + 1);
-  const login = () => {};
+  const login = (id: number, name: string) => {
+    setSession({ ...session, loginUser: { id, name } });
+  };
   const logout = () => {
     setSession({ ...session, loginUser: null });
   };
