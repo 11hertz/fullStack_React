@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 import { LoginUser } from '../App';
 
 type Props = {
@@ -6,25 +6,44 @@ type Props = {
 };
 
 const Login = ({ login }: Props) => {
-  const [id, setId] = useState(0);
-  const [name, setName] = useState('');
+  console.log('@@@Login');
+  // const [id, setId] = useState(0);
+  // const [name, setName] = useState('');
+  const userIdRef = useRef<HTMLInputElement>(null);
+  const userNameRef = useRef<HTMLInputElement>(null);
 
-  const changeId = (evt: ChangeEvent<HTMLInputElement>) =>
-    setId(Number(evt.currentTarget.value));
+  // const changeId = (evt: ChangeEvent<HTMLInputElement>) =>
+  //   setId(Number(evt.currentTarget.value));
 
-  const changeName = (evt: ChangeEvent<HTMLInputElement>) =>
-    setName(evt.currentTarget.value);
+  // const changeName = (evt: ChangeEvent<HTMLInputElement>) =>
+  //   setName(evt.currentTarget.value);
+
+  const submit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    const id = Number(userIdRef.current?.value);
+    const name = userNameRef.current?.value || '';
+
+    if (id && name) {
+      login({ id, name });
+    }
+  };
+
+  useEffect(() => {
+    if (userIdRef.current) userIdRef.current.value = '100';
+    if (userNameRef.current) userNameRef.current.focus();
+  }, []);
 
   return (
-    <>
+    <form onSubmit={submit}>
       <div>
-        Login ID(숫자): <input type='number' value={id} onChange={changeId} />
+        Login ID(숫자): <input type='number' ref={userIdRef} />
       </div>
       <div>
-        Login Name: <input type='text' value={name} onChange={changeName} />
+        Login Name: <input type='text' ref={userNameRef} />
       </div>
-      <button onClick={() => login({ id, name })}>Login</button>
-    </>
+      <button>Login</button>
+    </form>
   );
 };
 export default Login;

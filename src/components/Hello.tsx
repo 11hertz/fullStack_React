@@ -12,6 +12,7 @@ const Hello = ({
   plusCount,
   children,
 }: PropsWithChildren<Props>) => {
+  console.log('@@@Hello');
   return (
     <>
       <h1>

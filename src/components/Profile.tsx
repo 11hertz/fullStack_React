@@ -9,7 +9,9 @@ const Profile = ({ loginUser, logout }: Props) => {
   console.log('@@@Profile');
   return (
     <>
-      <div>User Name: {loginUser.name}</div>
+      <div>
+        User Name: <strong>{loginUser.name}</strong>
+      </div>
       <button onClick={logout}>Logout</button>
     </>
   );
