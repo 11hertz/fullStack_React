@@ -48,6 +48,18 @@ function App() {
     setSession({ ...session, loginUser: null });
   };
 
+  const saveCartItem = (name: string, price: number) => {
+    const id =
+      session.cart
+        .map((cart) => cart.id)
+        .sort()
+        .at(-1) || 0;
+    setSession({
+      ...session,
+      cart: [...session.cart, { id: id + 1, name, price }],
+    });
+  };
+
   const removeCartItem = (itemId: number) => {
     setSession({
       ...session,
@@ -69,6 +81,7 @@ function App() {
         session={session}
         login={login}
         logout={logout}
+        saveCartItem={saveCartItem}
         removeCartItem={removeCartItem}
       />
       <Hello name='홍길동' age={30} plusCount={plusCount}>
