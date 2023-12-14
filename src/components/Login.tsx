@@ -29,9 +29,13 @@ const Login = ({ login }: Props) => {
     }
   };
 
-  useEffect(() => {
+  const focusName = () => {
     if (userIdRef.current) userIdRef.current.value = '100';
+  };
+
+  useEffect(() => {
     if (userNameRef.current) userNameRef.current.focus();
+    focusName();
   }, []);
 
   return (
