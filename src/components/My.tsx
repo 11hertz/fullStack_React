@@ -1,12 +1,13 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, RefObject, useRef } from 'react';
 import { LoginUser, Session } from '../App';
-import Login from './Login';
+import Login, { LoginHandle } from './Login';
 import Profile from './Profile';
 
 type Props = {
   session: Session;
   login: ({ id, name }: LoginUser) => void;
   logout: () => void;
+  loginHandleRef: RefObject<LoginHandle>;
   saveCartItem: (name: string, price: number) => void;
   removeCartItem: (itemId: number) => void;
 };
@@ -15,6 +16,7 @@ const My = ({
   session: { loginUser, cart },
   login,
   logout,
+  loginHandleRef,
   saveCartItem,
   removeCartItem,
 }: Props) => {
@@ -48,7 +50,7 @@ const My = ({
       {loginUser ? (
         <Profile loginUser={loginUser} logout={logout} />
       ) : (
-        <Login login={login} />
+        <Login login={login} ref={loginHandleRef} />
       )}
       <ul>
         {cart.map(({ id, name, price }) => (

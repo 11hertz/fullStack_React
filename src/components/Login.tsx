@@ -1,11 +1,21 @@
-import { FormEvent, useEffect, useRef } from 'react';
+import {
+  FormEvent,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import { LoginUser } from '../App';
 
 type Props = {
   login: ({ id, name }: LoginUser) => void;
 };
 
-const Login = ({ login }: Props) => {
+export type LoginHandle = {
+  focusName: () => void;
+};
+
+const Login = forwardRef(({ login }: Props, ref) => {
   console.log('@@@Login');
   // const [id, setId] = useState(0);
   // const [name, setName] = useState('');
@@ -24,17 +34,19 @@ const Login = ({ login }: Props) => {
     const id = Number(userIdRef.current?.value);
     const name = userNameRef.current?.value || '';
 
-    if (id && name) {
-      login({ id, name });
-    }
+    login({ id, name });
   };
 
   const focusName = () => {
-    if (userIdRef.current) userIdRef.current.value = '100';
+    if (userNameRef.current) userNameRef.current.focus();
   };
 
+  useImperativeHandle(ref, () => ({
+    focusName,
+  }));
+
   useEffect(() => {
-    if (userNameRef.current) userNameRef.current.focus();
+    if (userIdRef.current) userIdRef.current.value = '100';
     focusName();
   }, []);
 
@@ -49,5 +61,5 @@ const Login = ({ login }: Props) => {
       <button>Login</button>
     </form>
   );
-};
+});
 export default Login;
