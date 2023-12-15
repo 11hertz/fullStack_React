@@ -29,7 +29,7 @@ const ChildComponent = forwardRef((_, ref) => {
 });
 
 function App() {
-  const { count, plusCount } = useCounter();
+  const { count } = useCounter();
   const [session, setSession] = useState<Session>(SampleSession);
 
   const loginHandleRef = useRef<LoginHandle>(null);
@@ -83,7 +83,7 @@ function App() {
         saveCartItem={saveCartItem}
         removeCartItem={removeCartItem}
       />
-      <Hello name='홍길동' age={30} plusCount={plusCount}>
+      <Hello name='홍길동' age={30}>
         <h3>반갑습니다~</h3>
       </Hello>
     </>
