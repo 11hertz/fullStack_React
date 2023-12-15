@@ -1,5 +1,4 @@
 import { FormEvent, RefObject, useRef } from 'react';
-import { LoginUser, Session } from '../App';
 import Login, { LoginHandle } from './Login';
 import Profile from './Profile';
 

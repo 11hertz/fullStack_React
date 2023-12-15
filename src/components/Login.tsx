@@ -5,7 +5,6 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react';
-import { LoginUser } from '../App';
 
 type Props = {
   login: ({ id, name }: LoginUser) => void;

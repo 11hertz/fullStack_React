@@ -1,5 +1,3 @@
-import { LoginUser } from '../App';
-
 type Props = {
   loginUser: LoginUser;
   logout: () => void;

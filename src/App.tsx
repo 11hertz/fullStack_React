@@ -3,13 +3,7 @@ import Hello from './components/Hello';
 import My from './components/My';
 import './App.css';
 import { LoginHandle } from './components/Login';
-
-export type LoginUser = { id: number; name: string };
-export type Cart = { id: number; name: string; price: number };
-export type Session = {
-  loginUser: LoginUser | null;
-  cart: Cart[];
-};
+import { useCounter } from './hooks/counter-context';
 
 const SampleSession = {
   loginUser: null,
@@ -35,14 +29,11 @@ const ChildComponent = forwardRef((_, ref) => {
 });
 
 function App() {
-  console.log('@@@App');
-
-  const [count, setCount] = useState(0);
+  const { count, plusCount } = useCounter();
   const [session, setSession] = useState<Session>(SampleSession);
 
   const loginHandleRef = useRef<LoginHandle>(null);
 
-  const plusCount = () => setCount((prevCount) => prevCount + 1);
   const login = ({ id, name }: LoginUser) => {
     if (!name) {
       alert('Input User Name, please.');
