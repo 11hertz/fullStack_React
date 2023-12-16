@@ -5,22 +5,19 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react';
-
-type Props = {
-  login: ({ id, name }: LoginUser) => void;
-};
+import { useSession } from '../hooks/session-context';
 
 export type LoginHandle = {
   focusName: () => void;
 };
 
-const Login = forwardRef(({ login }: Props, ref) => {
+const Login = forwardRef((_, ref) => {
   console.log('@@@Login');
   // const [id, setId] = useState(0);
   // const [name, setName] = useState('');
   const userIdRef = useRef<HTMLInputElement>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
-
+  const { login } = useSession();
   // const changeId = (evt: ChangeEvent<HTMLInputElement>) =>
   //   setId(Number(evt.currentTarget.value));
 

@@ -2,18 +2,7 @@ import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import Hello from './components/Hello';
 import My from './components/My';
 import './App.css';
-import { LoginHandle } from './components/Login';
 import { useCounter } from './hooks/counter-context';
-
-const SampleSession = {
-  loginUser: null,
-  // loginUser: { id: 1, name: 'Hong' },
-  cart: [
-    { id: 100, name: '라면', price: 3000 },
-    { id: 101, name: '컵라면', price: 2000 },
-    { id: 200, name: '파', price: 5000 },
-  ],
-};
 
 type ChildHandler = {
   appendPeriod: () => void;
@@ -30,40 +19,6 @@ const ChildComponent = forwardRef((_, ref) => {
 
 function App() {
   const { count } = useCounter();
-  const [session, setSession] = useState<Session>(SampleSession);
-
-  const loginHandleRef = useRef<LoginHandle>(null);
-
-  const login = ({ id, name }: LoginUser) => {
-    if (!name) {
-      alert('Input User Name, please.');
-      loginHandleRef.current?.focusName();
-      return;
-    }
-    setSession({ ...session, loginUser: { id, name } });
-  };
-  const logout = () => {
-    setSession({ ...session, loginUser: null });
-  };
-
-  const saveCartItem = (name: string, price: number) => {
-    const id =
-      session.cart
-        .map((cart) => cart.id)
-        .sort()
-        .at(-1) || 0;
-    setSession({
-      ...session,
-      cart: [...session.cart, { id: id + 1, name, price }],
-    });
-  };
-
-  const removeCartItem = (itemId: number) => {
-    setSession({
-      ...session,
-      cart: session.cart.filter((item) => item.id !== itemId),
-    });
-  };
 
   const childRef = useRef<ChildHandler>(null);
 
@@ -76,12 +31,7 @@ function App() {
       </button>
       <h2>count: {count}</h2>
       <My
-        session={session}
-        login={login}
-        logout={logout}
-        loginHandleRef={loginHandleRef}
-        saveCartItem={saveCartItem}
-        removeCartItem={removeCartItem}
+      // loginHandleRef={loginHandleRef}
       />
       <Hello name='홍길동' age={30}>
         <h3>반갑습니다~</h3>
