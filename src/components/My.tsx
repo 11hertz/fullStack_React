@@ -4,7 +4,6 @@ import Profile from './Profile';
 import { useSession } from '../hooks/session-context';
 
 const My = () => {
-  console.log('@@@My');
   const {
     session: { loginUser, cart },
     saveCartItem,

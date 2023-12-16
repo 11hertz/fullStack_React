@@ -6,18 +6,30 @@ import {
   useRef,
 } from 'react';
 import { useSession } from '../hooks/session-context';
+import { useCounter } from '../hooks/counter-context';
 
 export type LoginHandle = {
   focusName: () => void;
 };
 
 const Login = forwardRef((_, ref) => {
-  console.log('@@@Login');
   // const [id, setId] = useState(0);
   // const [name, setName] = useState('');
   const userIdRef = useRef<HTMLInputElement>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
   const { login } = useSession();
+  const { count, plusCount, minusCount } = useCounter();
+
+  useEffect(() => {
+    plusCount();
+    console.log('Login Please...', count);
+
+    return () => {
+      minusCount();
+      console.log('login-cleanup-code!!', count);
+    };
+  }, []);
+
   // const changeId = (evt: ChangeEvent<HTMLInputElement>) =>
   //   setId(Number(evt.currentTarget.value));
 

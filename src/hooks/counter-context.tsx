@@ -3,19 +3,22 @@ import { PropsWithChildren, createContext, useContext, useState } from 'react';
 type CounterContextProps = {
   count: number;
   plusCount: () => void;
+  minusCount: () => void;
 };
 const CounterContext = createContext<CounterContextProps>({
   count: 0,
   plusCount: () => {},
+  minusCount: () => {},
 });
 
 const CounterContextProvider = ({ children }: PropsWithChildren) => {
   const [count, setCount] = useState(0);
 
   const plusCount = () => setCount(count + 1);
+  const minusCount = () => setCount((count) => count - 1);
 
   return (
-    <CounterContext.Provider value={{ count, plusCount }}>
+    <CounterContext.Provider value={{ count, plusCount, minusCount }}>
       {children}
     </CounterContext.Provider>
   );
