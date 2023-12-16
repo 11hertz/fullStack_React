@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import Login from './Login';
 import Profile from './Profile';
 import { useSession } from '../hooks/session-context';
@@ -11,8 +11,35 @@ const My = () => {
     removeCartItem,
   } = useSession();
 
+  const itemIdRef = useRef<number>(0);
   const itemNameRef = useRef<HTMLInputElement>(null);
   const itemPriceRef = useRef<HTMLInputElement>(null);
+
+  const [hasDirty, setDirty] = useState(false);
+  const checkDirty = () => {
+    const id = itemIdRef.current;
+    const name = itemNameRef.current?.value;
+    const price = itemPriceRef.current?.value;
+
+    const selectedItem = cart.find((item) => item.id === id) || {
+      name: '',
+      price: '',
+    };
+
+    setDirty(name !== selectedItem.name || price != selectedItem.price);
+  };
+
+  const setCartItem = (id: number) => {
+    itemIdRef.current = id;
+    const selectedItem = cart.find((item) => item.id === id) || {
+      name: '',
+      price: 0,
+    };
+    if (itemNameRef.current && itemPriceRef.current) {
+      itemNameRef.current.value = selectedItem?.name;
+      itemPriceRef.current.value = selectedItem?.price.toString();
+    }
+  };
 
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,9 +56,10 @@ const My = () => {
       return itemPriceRef.current?.focus();
     }
 
-    saveCartItem(name, Number(price));
+    saveCartItem(itemIdRef.current, name, Number(price));
     itemNameRef.current.value = '';
     itemPriceRef.current.value = '';
+    setDirty(false);
   };
 
   return (
@@ -40,15 +68,30 @@ const My = () => {
       <ul>
         {cart.map(({ id, name, price }) => (
           <li key={id}>
-            {id} {}
-            <strong>{name}</strong>({price})
+            <small>{id}</small>{' '}
+            <button
+              onClick={() => setCartItem(id)}
+              style={{
+                paddingTop: 0,
+                paddingBottom: '0.2rem',
+                backgroundColor: 'inherit',
+              }}
+              title='수정하기'
+            >
+              <strong>{name}</strong>
+            </button>
+            <small>({price.toLocaleString()}원)</small>
             <button onClick={() => removeCartItem(id)}>DEL</button>
           </li>
         ))}
         <form onSubmit={submit}>
-          <input type='text' ref={itemNameRef} />
-          <input type='number' ref={itemPriceRef} />
-          <button>Save</button>
+          <input type='text' ref={itemNameRef} onChange={() => checkDirty()} />
+          <input
+            type='number'
+            ref={itemPriceRef}
+            onChange={() => checkDirty()}
+          />
+          {hasDirty && <button>Save</button>}
         </form>
       </ul>
     </>
