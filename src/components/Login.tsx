@@ -18,15 +18,13 @@ const Login = forwardRef((_, ref) => {
   const userIdRef = useRef<HTMLInputElement>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
   const { login } = useSession();
-  const { count, plusCount, minusCount } = useCounter();
+  const { plusCount, minusCount } = useCounter();
 
   useEffect(() => {
     plusCount();
-    console.log('Login Please...', count);
 
     return () => {
       minusCount();
-      console.log('login-cleanup-code!!', count);
     };
   }, []);
 
