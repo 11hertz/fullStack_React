@@ -1,20 +1,45 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import Hello from './components/Hello';
 import My from './components/My';
 import './App.css';
 import { useCounter } from './hooks/counter-context';
+import { useTimer } from './hooks/timer-hooks';
 
 type ChildHandler = {
   appendPeriod: () => void;
 };
 const ChildComponent = forwardRef((_, ref) => {
   const [childText, setChildText] = useState('.');
+  const [badCount, setBadCount] = useState(0);
+  const [goodCount, setGoodCount] = useState(0);
+
+  const { useInterval } = useTimer();
+
+  useInterval(() => setBadCount((pre) => pre + 1), 1000);
+
+  useEffect(() => {
+    const intl = setInterval(() => setGoodCount((pre) => pre + 1), 1000);
+
+    return () => clearInterval(intl);
+  }, []);
 
   const handler: ChildHandler = {
     appendPeriod: () => setChildText((c) => c + '.'),
   };
   useImperativeHandle(ref, () => handler);
-  return <>childComp: {childText}</>;
+  return (
+    <>
+      <strong style={{ float: 'left', color: 'red' }}>{badCount}</strong>
+      childComp: {childText}
+      <strong style={{ float: 'right', color: 'green' }}>{goodCount}</strong>
+    </>
+  );
 });
 
 function App() {
