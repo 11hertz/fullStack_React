@@ -18,7 +18,7 @@ const ChildComponent = forwardRef((_, ref) => {
 });
 
 function App() {
-  const { count } = useCounter();
+  const { count, plusCount } = useCounter();
 
   const childRef = useRef<ChildHandler>(null);
 
@@ -29,13 +29,16 @@ function App() {
       <button onClick={() => childRef.current?.appendPeriod()}>
         Call Child Component
       </button>
-      <h2>count: {count}</h2>
+      <Hello age={30} />
+      <hr />
       <My
       // loginHandleRef={loginHandleRef}
       />
-      <Hello name='홍길동' age={30}>
-        <h3>반갑습니다~</h3>
-      </Hello>
+      <div className='card'>
+        <button onClick={plusCount}>
+          count is {count > 0 ? 'Big' : 'Zero'}
+        </button>
+      </div>
     </>
   );
 }
