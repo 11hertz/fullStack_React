@@ -1,10 +1,4 @@
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import Hello from './components/Hello';
 import My from './components/My';
 import './App.css';
@@ -19,15 +13,26 @@ const ChildComponent = forwardRef((_, ref) => {
   const [badCount, setBadCount] = useState(0);
   const [goodCount, setGoodCount] = useState(0);
 
-  const { useInterval } = useTimer();
+  const { useInterval, useTimeout } = useTimer();
 
   useInterval(() => setBadCount((pre) => pre + 1), 1000);
 
-  useEffect(() => {
-    const intl = setInterval(() => setGoodCount((pre) => pre + 1), 1000);
+  useInterval(() => setGoodCount((pre) => pre + 1), 1000);
 
-    return () => clearInterval(intl);
-  }, []);
+  // useEffect(() => {
+  //   const intl = setInterval(() => setGoodCount((pre) => pre + 1), 1000);
+
+  //   return () => clearInterval(intl);
+  // }, []);
+
+  useTimeout(
+    (initSec) => {
+      setBadCount(initSec);
+      setGoodCount(initSec);
+    },
+    5000,
+    100
+  );
 
   const handler: ChildHandler = {
     appendPeriod: () => setChildText((c) => c + '.'),
