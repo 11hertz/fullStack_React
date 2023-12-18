@@ -1,26 +1,31 @@
-import { PropsWithChildren, useId } from 'react';
-import { useCounter } from '../hooks/counter-context';
-import { Sample } from './Sample';
+import { memo, useEffect, useId } from 'react';
 
 type Props = {
-  name?: string;
+  // name?: string;
   age: number;
+  fn: () => void;
 };
 
-const Hello = ({ name = 'CCC', age, children }: PropsWithChildren<Props>) => {
-  const { count, plusCount } = useCounter();
+export const Hello = ({ age, fn }: Props) => {
+  console.log('Hello.age>>', age);
   const helloId = useId();
 
+  useEffect(() => {
+    console.log('child.fn>>>', fn());
+  }, [fn]);
+
   return (
-    <>
-      <h5 id={helloId}>
-        Hello, {name}({age}세) [{count}]
-      </h5>
-      {children}
-      <button onClick={plusCount}>+count</button>
+    <div style={{ border: '2px solid red' }}>
+      <h5 id={helloId}>Hello, {age}</h5>
+      {/* <button onClick={plusCount}>+count</button> */}
       <hr />
-      <Sample />
-    </>
+      {/* <Sample /> */}
+    </div>
   );
 };
-export default Hello;
+
+export const MemoHello = memo(Hello, ({ age }, { age: age2 }) => {
+  console.log('🚀  prePorp:', age, age2);
+  // return Object.is(preProp.fn, postProp.fn) && preProp.age === postProp.age;
+  return age === age2;
+});

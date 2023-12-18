@@ -8,7 +8,7 @@ export const Sample = () => {
   // const array = [1, 2, 3];
   const memoArray = useMemo(() => array, [array]);
   useEffect(() => {
-    console.log('effect Array@@@');
+    // console.log('effect Array@@@');
   }, [memoArray]);
   return (
     <>

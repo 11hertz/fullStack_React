@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const cacheUrlData: Record<string, unknown> = {};
 const fetchByCache = async (url: string, init: RequestInit) => {
-  console.log('fetchByCache>>>>>>', url, cacheUrlData);
+  // console.log('fetchByCache>>>>>>', url, cacheUrlData);
   if (url in cacheUrlData) return cacheUrlData[url];
 
   const res = await fetch(url, init);

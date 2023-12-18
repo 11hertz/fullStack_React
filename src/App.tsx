@@ -1,5 +1,12 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import Hello from './components/Hello';
+import {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { MemoHello } from './components/Hello';
 import My from './components/My';
 import './App.css';
 import { useCounter } from './hooks/counter-context';
@@ -52,6 +59,10 @@ function App() {
 
   const childRef = useRef<ChildHandler>(null);
 
+  // const fn = () => 'FN!';
+  const fn = useCallback(() => 'FN!', []);
+  const age = useMemo(() => count + 1, []);
+
   return (
     <>
       <ChildComponent ref={childRef} />
@@ -59,7 +70,7 @@ function App() {
       <button onClick={() => childRef.current?.appendPeriod()}>
         Call Child Component
       </button>
-      <Hello age={30} />
+      <MemoHello age={age} fn={fn} />
       <hr />
       <My
       // loginHandleRef={loginHandleRef}
