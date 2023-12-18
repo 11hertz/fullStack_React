@@ -1,5 +1,6 @@
 import { PropsWithChildren, useId } from 'react';
 import { useCounter } from '../hooks/counter-context';
+import { Sample } from './Sample';
 
 type Props = {
   name?: string;
@@ -17,6 +18,8 @@ const Hello = ({ name = 'CCC', age, children }: PropsWithChildren<Props>) => {
       </h5>
       {children}
       <button onClick={plusCount}>+count</button>
+      <hr />
+      <Sample />
     </>
   );
 };
