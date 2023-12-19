@@ -1,4 +1,9 @@
-import { PropsWithChildren, createContext, useContext, useState } from 'react';
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useReducer,
+} from 'react';
 
 type CounterContextProps = {
   count: number;
@@ -11,11 +16,29 @@ const CounterContext = createContext<CounterContextProps>({
   minusCount: () => {},
 });
 
-const CounterContextProvider = ({ children }: PropsWithChildren) => {
-  const [count, setCount] = useState(0);
+type Action = { type: string; payload?: number };
 
-  const plusCount = () => setCount(count + 1);
-  const minusCount = () => setCount((count) => count - 1);
+const reducer = (count: number, { type, payload = 1 }: Action) => {
+  switch (type) {
+    case 'plus':
+      return count + payload;
+    case 'minus':
+      return count - payload;
+
+    default:
+      return count;
+  }
+};
+
+const CounterContextProvider = ({ children }: PropsWithChildren) => {
+  // const [count, setCount] = useState(0);
+
+  // const plusCount = () => setCount(count + 1);
+  // const minusCount = () => setCount((count) => count - 1);
+
+  const [count, dispatch] = useReducer(reducer, 0);
+  const plusCount = () => dispatch({ type: 'plus', payload: 2 });
+  const minusCount = () => dispatch({ type: 'minus' });
 
   return (
     <CounterContext.Provider value={{ count, plusCount, minusCount }}>

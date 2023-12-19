@@ -55,7 +55,7 @@ const ChildComponent = forwardRef((_, ref) => {
 });
 
 function App() {
-  const { count, plusCount } = useCounter();
+  const { count, plusCount, minusCount } = useCounter();
 
   const childRef = useRef<ChildHandler>(null);
 
@@ -79,6 +79,8 @@ function App() {
         <button onClick={plusCount}>
           count is {count > 0 ? 'Big' : 'Zero'}
         </button>
+        {count}
+        <button onClick={minusCount}>Minus</button>
       </div>
     </>
   );
