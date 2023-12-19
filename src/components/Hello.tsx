@@ -1,4 +1,4 @@
-import { memo, useEffect, useId } from 'react';
+import { memo, useEffect, useId, useReducer } from 'react';
 
 type Props = {
   // name?: string;
@@ -9,16 +9,20 @@ type Props = {
 export const Hello = ({ age, fn }: Props) => {
   console.log('Hello.age>>', age);
   const helloId = useId();
+  // const [isActive, setActive] = useState(false);
+  const [isActive, toggleActive] = useReducer((preActive) => !preActive, false);
 
   useEffect(() => {
-    console.log('child.fn>>>', fn());
-  }, [fn]);
+    console.log('child.fn>>>', age, fn());
+  }, [age, fn]);
 
   return (
     <div style={{ border: '2px solid red' }}>
       <h5 id={helloId}>Hello, {age}</h5>
       {/* <button onClick={plusCount}>+count</button> */}
       <hr />
+      {isActive ? 'Active' : 'Passive'}
+      <button onClick={toggleActive}>Toggle</button>
       {/* <Sample /> */}
     </div>
   );
