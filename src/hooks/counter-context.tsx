@@ -37,7 +37,7 @@ const CounterContextProvider = ({ children }: PropsWithChildren) => {
   // const minusCount = () => setCount((count) => count - 1);
 
   const [count, dispatch] = useReducer(reducer, 0);
-  const plusCount = () => dispatch({ type: 'plus', payload: 2 });
+  const plusCount = () => dispatch({ type: 'plus', payload: 1 });
   const minusCount = () => dispatch({ type: 'minus' });
 
   return (

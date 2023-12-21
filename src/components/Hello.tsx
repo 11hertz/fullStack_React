@@ -1,4 +1,5 @@
 import { memo, useEffect, useId, useReducer } from 'react';
+import styles from './Hello.module.css';
 
 type Props = {
   // name?: string;
@@ -17,7 +18,7 @@ export const Hello = ({ age, fn }: Props) => {
   }, [age, fn]);
 
   return (
-    <div style={{ border: '2px solid red' }}>
+    <div className={styles['hello-border']}>
       <h5 id={helloId}>Hello, {age}</h5>
       {/* <button onClick={plusCount}>+count</button> */}
       <hr />
