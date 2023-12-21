@@ -2,6 +2,7 @@ import { FormEvent, useRef, useState } from 'react';
 import Login from './Login';
 import Profile from './Profile';
 import { useSession } from '../hooks/session-context';
+import clsx from 'clsx';
 
 const My = () => {
   const {
@@ -63,7 +64,10 @@ const My = () => {
 
   return (
     <>
-      {loginUser ? <Profile /> : <Login />}
+      {/* {loginUser ? <Profile /> : <Login />} */}
+      <div className={clsx({ 'green-border': !loginUser }, 'red')}>
+        {loginUser ? <Profile /> : <Login />}
+      </div>
       <ul>
         {cart.map(({ id, name, price }) => (
           <li key={id}>

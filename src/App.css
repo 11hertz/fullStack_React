@@ -48,3 +48,7 @@
 .red {
   color: red;
 }
+
+.green-border {
+  border: 2px solid green;
+}
