@@ -115,8 +115,8 @@ export const SessionContextProvider = ({ children }: PropsWithChildren) => {
   }, []);
   const logout = useCallback(() => {
     // setSession({ ...session, loginUser: null });
-    dispatch({ type: ActionType.LOGOUT, payload: null });
-  }, []);
+    if (session.loginUser) dispatch({ type: ActionType.LOGOUT, payload: null });
+  }, [session]);
 
   const saveCartItem = useCallback(
     (id: number, name: string, price: number) => {
@@ -136,7 +136,7 @@ export const SessionContextProvider = ({ children }: PropsWithChildren) => {
       // });
       dispatch({ type: ActionType.SAVE_ITEM, payload: cart });
     },
-    []
+    [session]
   );
 
   const removeCartItem = useCallback((itemId: number) => {

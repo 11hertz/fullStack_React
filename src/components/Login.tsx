@@ -26,7 +26,7 @@ const Login = forwardRef((_, ref) => {
     return () => {
       minusCount();
     };
-  }, []);
+  }, [plusCount, minusCount]);
 
   // const changeId = (evt: ChangeEvent<HTMLInputElement>) =>
   //   setId(Number(evt.currentTarget.value));

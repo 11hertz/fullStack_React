@@ -64,7 +64,7 @@ function App() {
 
   // const fn = () => 'FN!';
   const fn = useCallback(() => 'FN!', []);
-  const age = useMemo(() => count + 1, []);
+  const age = useMemo(() => count + 1, [count]);
 
   const rrr = () => ['bold', 'red'];
   return (

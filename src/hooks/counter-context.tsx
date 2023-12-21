@@ -1,6 +1,7 @@
 import {
   PropsWithChildren,
   createContext,
+  useCallback,
   useContext,
   useReducer,
 } from 'react';
@@ -37,8 +38,11 @@ const CounterContextProvider = ({ children }: PropsWithChildren) => {
   // const minusCount = () => setCount((count) => count - 1);
 
   const [count, dispatch] = useReducer(reducer, 0);
-  const plusCount = () => dispatch({ type: 'plus', payload: 1 });
-  const minusCount = () => dispatch({ type: 'minus' });
+  const plusCount = useCallback(
+    () => dispatch({ type: 'plus', payload: 1 }),
+    []
+  );
+  const minusCount = useCallback(() => dispatch({ type: 'minus' }), []);
 
   return (
     <CounterContext.Provider value={{ count, plusCount, minusCount }}>
