@@ -1,5 +1,6 @@
 import { useRef, useState, FormEvent } from 'react';
 import { useSession } from '../hooks/session-context';
+import { Link } from 'react-router-dom';
 
 export const Items = () => {
   const {
@@ -77,6 +78,7 @@ export const Items = () => {
           </button>
           <small>({price.toLocaleString()}원)</small>
           <button onClick={() => removeCartItem(id)}>DEL</button>
+          <Link to={`/items/${id}`}>GO</Link>
         </li>
       ))}
       <form onSubmit={submit}>
