@@ -1,18 +1,21 @@
+import { useNavigate } from 'react-router-dom';
 import { useSession } from '../hooks/session-context';
-import Login from './Login';
 import Profile from './Profile';
-import clsx from 'clsx';
+import { useEffect } from 'react';
 
 const My = () => {
   const {
     session: { loginUser },
   } = useSession();
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!loginUser) navigate('/login');
+  }, [loginUser, navigate]);
+
   return (
     <>
-      {/* {loginUser ? <Profile /> : <Login />} */}
-      <div className={clsx({ 'green-border': !loginUser })}>
-        {loginUser ? <Profile /> : <Login />}
-      </div>
+      <Profile />
     </>
   );
 };

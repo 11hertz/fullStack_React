@@ -10,6 +10,7 @@ import { useCounter } from './hooks/counter-context';
 import My from './components/My';
 import Login from './components/Login';
 import { Items } from './components/Items';
+import { Item } from './components/Item';
 
 function App() {
   const { count } = useCounter();
@@ -24,6 +25,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/my' element={<My />} />
         <Route path='/items' element={<Items />} />
+        <Route path='/items/:id' element={<Item />} />
         <Route path='/hello' element={<MemoHello age={age} fn={fn} />} />
         <Route path='/*' element={<NotFound />} />
       </Routes>
