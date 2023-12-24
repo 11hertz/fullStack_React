@@ -78,7 +78,9 @@ export const Items = () => {
           </button>
           <small>({price.toLocaleString()}원)</small>
           <button onClick={() => removeCartItem(id)}>DEL</button>
-          <Link to={`/items/${id}`}>GO</Link>
+          <Link to={`/items/${id}`} state={{ name, price }}>
+            GO
+          </Link>
         </li>
       ))}
       <form onSubmit={submit}>
