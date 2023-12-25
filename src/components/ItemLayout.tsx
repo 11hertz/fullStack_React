@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useSearchParams } from 'react-router-dom';
 import { useSession } from '../hooks/session-context';
 
 export const ItemLayout = () => {
@@ -6,21 +6,37 @@ export const ItemLayout = () => {
     session: { cart },
     removeCartItem,
   } = useSession();
+
+  // const [searchStr, setSearchStr] = useState('');
+  const [searchParams, setsearchParams] = useSearchParams({ searchStr: '' });
+
   return (
     <>
+      Search:
+      <input
+        type='text'
+        value={searchParams.get('searchStr') || ''}
+        onChange={(e) => setsearchParams({ searchStr: e.currentTarget.value })}
+      />
       <ul>
-        {cart.map(({ id, name, price }) => (
-          <li key={id}>
-            <small>{id}</small>
-            <Link to={`/items/${id}`} state={{ name, price }}>
-              <strong>{name}</strong>
-            </Link>
-            <small>({price.toLocaleString()}원)</small>
-            <button onClick={() => removeCartItem(id)}>DEL</button>
-          </li>
-        ))}
+        {cart
+          .filter((item) =>
+            item.name.includes(searchParams.get('searchStr') || '')
+          )
+          .map((item) => (
+            <li key={item.id}>
+              <small>{item.id}</small>
+              <Link to={`/items/${item.id}`} state={item}>
+                <strong>{item.name}</strong>
+              </Link>
+              <small>({item.price.toLocaleString()}원)</small>
+              <button onClick={() => removeCartItem(item.id)}>DEL</button>
+            </li>
+          ))}
       </ul>
-      <Outlet />
+      <div style={{ border: '2px solid green', padding: '2rem' }}>
+        <Outlet />
+      </div>
     </>
   );
 };
