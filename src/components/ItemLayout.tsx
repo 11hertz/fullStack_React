@@ -1,14 +1,18 @@
 import { Link, Outlet, useSearchParams } from 'react-router-dom';
 import { useSession } from '../hooks/session-context';
+import { useState } from 'react';
 
 export const ItemLayout = () => {
   const {
     session: { cart },
+    saveCartItem,
     removeCartItem,
   } = useSession();
 
   // const [searchStr, setSearchStr] = useState('');
   const [searchParams, setsearchParams] = useSearchParams({ searchStr: '' });
+
+  const [currItem] = useState<Cart | null>(null);
 
   return (
     <>
@@ -35,7 +39,7 @@ export const ItemLayout = () => {
           ))}
       </ul>
       <div style={{ border: '2px solid green', padding: '2rem' }}>
-        <Outlet />
+        <Outlet context={{ currItem, saveCartItem }} />
       </div>
     </>
   );

@@ -11,20 +11,21 @@ export const Item = () => {
 
   const location = useLocation();
   const { state: itemState } = location;
-  const [item] = useState<Cart>(
-    () => itemState || cart.find((item) => item.id === Number(id))
-  );
+  // const { currItem } = useOutletContext();
+  const [item, setItem] = useState<Cart | undefined>(undefined);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!item) navigate('/items');
-  }, [item, navigate]);
+    const _item = itemState || cart.find((item) => item.id === Number(id));
+    setItem(_item);
+    if (!_item) navigate('/items');
+  }, [item, navigate, cart, id, itemState]);
 
   return (
     <>
       {item?.id}. {item?.name} (￦{item?.price.toLocaleString()})
-      <button>SSS</button>
+      <button>Edit</button>
     </>
   );
 };
