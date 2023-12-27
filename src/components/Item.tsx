@@ -1,31 +1,57 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useSession } from '../hooks/session-context';
-import { useEffect, useState } from 'react';
-// import { useSession } from '../hooks/session-context';
+import { useEffect, useReducer, useRef } from 'react';
+import { useOutletContext } from 'react-router-dom';
 
 export const Item = () => {
-  const {
-    session: { cart },
-  } = useSession();
-  const { id } = useParams();
+  const { currItem: item, saveCartItem } = useOutletContext<{
+    currItem: Cart;
+    saveCartItem: saveCartItem;
+  }>();
 
-  const location = useLocation();
-  const { state: itemState } = location;
-  // const { currItem } = useOutletContext();
-  const [item, setItem] = useState<Cart | undefined>(undefined);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const priceRef = useRef<HTMLInputElement>(null);
 
-  const navigate = useNavigate();
+  const [isEditing, toggleEditing] = useReducer((prev) => !prev, false);
+
+  const editingOrSave = () => {
+    if (isEditing)
+      if (nameRef.current && priceRef.current) {
+        saveCartItem(
+          item.id || 0,
+          nameRef.current.value,
+          +priceRef.current.value
+        );
+      }
+
+    toggleEditing();
+  };
 
   useEffect(() => {
-    const _item = itemState || cart.find((item) => item.id === Number(id));
-    setItem(_item);
-    if (!_item) navigate('/items');
-  }, [item, navigate, cart, id, itemState]);
+    if (nameRef.current && priceRef.current) {
+      nameRef.current.value = item.name;
+      priceRef.current.value = String(item.price);
+      nameRef.current.select();
+    }
+  }, [item, isEditing]);
+
+  useEffect(() => {
+    if (item?.id === 0) toggleEditing();
+  }, [item?.id]);
 
   return (
     <>
-      {item?.id}. {item?.name} (￦{item?.price.toLocaleString()})
-      <button>Edit</button>
+      {isEditing ? (
+        <form style={{ margin: '1rem' }}>
+          <input type='text' ref={nameRef} placeholder='Input Item Name' />
+          <input type='number' ref={priceRef} placeholder='Input Item Price' />
+        </form>
+      ) : (
+        <div>
+          {item?.id}. {item?.name} (￦{item?.price.toLocaleString()})
+        </div>
+      )}
+
+      {isEditing && <button onClick={toggleEditing}>Cancel</button>}
+      <button onClick={editingOrSave}>{isEditing ? 'Save' : 'Edit'}</button>
     </>
   );
 };
