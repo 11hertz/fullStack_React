@@ -135,6 +135,7 @@ export const SessionContextProvider = ({ children }: PropsWithChildren) => {
       //   cart: [...cart],
       // });
       dispatch({ type: ActionType.SAVE_ITEM, payload: cart });
+      return id;
     },
     [session]
   );

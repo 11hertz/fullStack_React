@@ -1,11 +1,16 @@
 import { useEffect, useReducer, useRef } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useSearchParams } from 'react-router-dom';
 
 export const Item = () => {
   const { currItem: item, saveCartItem } = useOutletContext<{
     currItem: Cart;
     saveCartItem: saveCartItem;
   }>();
+
+  const [, setSearchParams] = useSearchParams({
+    searchStr: '',
+    itemId: '',
+  });
 
   const nameRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
@@ -15,11 +20,12 @@ export const Item = () => {
   const editingOrSave = () => {
     if (isEditing)
       if (nameRef.current && priceRef.current) {
-        saveCartItem(
+        const itemId = saveCartItem(
           item.id || 0,
           nameRef.current.value,
           +priceRef.current.value
         );
+        setSearchParams({ itemId: String(itemId) });
       }
 
     toggleEditing();

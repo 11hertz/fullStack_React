@@ -5,4 +5,4 @@ type Session = {
 
 type Cart = { id: number; name: string; price: number };
 type LoginUser = { id: number; name: string };
-type saveCartItem = (id: number, name: string, price: number) => void;
+type saveCartItem = (id: number, name: string, price: number) => number;

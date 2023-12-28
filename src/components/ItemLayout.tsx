@@ -11,7 +11,7 @@ export const ItemLayout = () => {
   } = useSession();
 
   // const [searchStr, setSearchStr] = useState('');
-  const [searchParams, setsearchParams] = useSearchParams({
+  const [searchParams, setSearchParams] = useSearchParams({
     searchStr: '',
     itemId: '',
   });
@@ -45,7 +45,7 @@ export const ItemLayout = () => {
         type='text'
         value={searchParams.get('searchStr') || ''}
         onChange={(e) =>
-          setsearchParams({
+          setSearchParams({
             searchStr: e.currentTarget.value,
             itemId,
           })
@@ -74,7 +74,7 @@ export const ItemLayout = () => {
                   <button
                     onClick={() => {
                       setCurrItem(item);
-                      setsearchParams({ searchStr, itemId: String(item.id) });
+                      setSearchParams({ searchStr, itemId: String(item.id) });
                     }}
                   >
                     <strong>{item.name}</strong>
@@ -87,7 +87,7 @@ export const ItemLayout = () => {
           <button
             onClick={() => {
               setCurrItem({ id: 0, name: '', price: 0 }),
-                setsearchParams({ searchStr });
+                setSearchParams({ searchStr });
             }}
           >
             + Add Item
